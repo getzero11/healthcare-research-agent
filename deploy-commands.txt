@@ -1,0 +1,29 @@
+## Commands to run after creating GitHub repository:
+
+# Connect to your GitHub repository
+git remote add origin https://github.com/getzero11/healthcare-research-agent.git
+
+# Push to GitHub
+git push -u origin main
+
+## After pushing to GitHub, go to:
+https://vercel.com/new
+
+## Import your repository:
+- Select "healthcare-research-agent" from your GitHub repositories
+- Click "Import"
+
+## Environment Variables to add in Vercel:
+DATABASE_URL = postgresql://postgres:Getzero2552&@db.canhtygpjdyfkckqjhoa.supabase.co:5432/postgres
+NEXTAUTH_SECRET = K8mN9pQ2rT5uW8xA1bC4dE7fG0hI3jL6mO9pS2tU5vX8yZ1aC4eF7gH0iK3lM6nP9qR2sT5uW8xA1bC4dE7fG0hI
+GOOGLE_CLIENT_ID = 310363257663-3vatftq5g5jaegslf6m9eaknbvfqelhf.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET = 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
+N8N_WEBHOOK_URL = https://getzero11-n8n-gz.hf.space/webhook/healthcare-report-generator
+
+## IMPORTANT: After Vercel deployment, you'll get a URL like:
+https://healthcare-research-agent-xyz123.vercel.app
+
+## Then update these:
+1. NEXTAUTH_URL in Vercel environment variables to your actual Vercel URL
+2. Google OAuth redirect URI to: https://your-vercel-url.vercel.app/api/auth/callback/google
+3. n8n workflow callback URLs to: https://your-vercel-url.vercel.app/api/webhook/n8n-callback
