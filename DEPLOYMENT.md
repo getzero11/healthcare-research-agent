@@ -55,7 +55,7 @@ git push -u origin main
 5. Configure environment variables:
    - `DATABASE_URL`: Your Supabase connection string
    - `NEXTAUTH_SECRET`: The generated secret from Step 3
-   - `NEXTAUTH_URL`: Your Vercel app URL (e.g., `https://your-app.vercel.app`)
+   - `NEXTAUTH_URL`: Your Vercel app URL (e.g., `https://healthcare-research-agent.vercel.app`)
    - `GOOGLE_CLIENT_ID`: From Step 2
    - `GOOGLE_CLIENT_SECRET`: From Step 2
    - `N8N_WEBHOOK_URL`: `https://n8ncloud.mywire.org/webhook/healthcare-report-generator`
@@ -77,14 +77,14 @@ After deployment:
 1. Go back to Google Cloud Console
 2. Update the OAuth 2.0 credentials
 3. Add your production URL to authorized redirect URIs:
-   `https://your-actual-vercel-domain.vercel.app/api/auth/callback/google`
+   `https://healthcare-research-agent.vercel.app/api/auth/callback/google`
 
 ## Step 8: Update n8n Workflow
 
 Update the callback URLs in your n8n workflow:
 1. Go to your n8n workflow
-2. Update "Success Callback" node URL to: `https://your-actual-vercel-domain.vercel.app/api/webhook/n8n-callback`
-3. Update "Error Callback" node URL to: `https://your-actual-vercel-domain.vercel.app/api/webhook/n8n-callback`
+2. Update "Success Callback" node URL to: `https://healthcare-research-agent.vercel.app/api/webhook/n8n-callback`
+3. Update "Error Callback" node URL to: `https://healthcare-research-agent.vercel.app/api/webhook/n8n-callback`
 4. Save and activate the workflow
 
 ## Step 9: Test the Application
@@ -120,12 +120,12 @@ Update the callback URLs in your n8n workflow:
 ## Environment Variables Summary
 
 ```env
-DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres"
+DATABASE_URL="postgresql://postgres.canhtygpjdyfkckqjhoa:Getzero2552%26@aws-1-us-east-1.pooler.supabase.com:6543/postgres"
 NEXTAUTH_SECRET="your-generated-secret"
-NEXTAUTH_URL="https://your-app.vercel.app"
+NEXTAUTH_URL="https://healthcare-research-agent.vercel.app"
 GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
-N8N_WEBHOOK_URL="https://getzero11-n8n-gz.hf.space/webhook/healthcare-report-generator"
+N8N_WEBHOOK_URL="https://n8ncloud.mywire.org/webhook/healthcare-report-generator"
 ```
 
 ## Support
