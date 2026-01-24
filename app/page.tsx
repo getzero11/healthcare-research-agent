@@ -120,16 +120,16 @@ export default function Home() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-healthcare-blue" />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-slate-800 shadow-sm border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -137,20 +137,20 @@ export default function Home() {
                 <BarChart3 className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">iHealthcareAnalyst</h1>
-                <p className="text-sm text-gray-500">Market Research Agent</p>
+                <h1 className="text-xl font-bold text-white">iHealthcareAnalyst</h1>
+                <p className="text-sm text-slate-400">Market Research Agent</p>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
               {session ? (
                 <div className="flex items-center space-x-3">
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-slate-300">
                     Welcome, {session.user?.name || session.user?.email}
                   </span>
                   <button
                     onClick={() => signOut()}
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors"
+                    className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-300 hover:text-white transition-colors"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Sign Out</span>
@@ -159,7 +159,7 @@ export default function Home() {
               ) : (
                 <button
                   onClick={() => signIn('google')}
-                  className="flex items-center space-x-2 bg-healthcare-blue text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   <LogIn className="h-4 w-4" />
                   <span>Sign In</span>
@@ -173,25 +173,25 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-white mb-4">
             AI-Powered Healthcare Market Research
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-8">
             Generate comprehensive market research reports with intelligent insights, 
             market sizing, competitive analysis, and forecasts for any healthcare sector.
           </p>
           
-          <div className="flex justify-center space-x-8 text-sm text-gray-500 mb-8">
+          <div className="flex justify-center space-x-8 text-sm text-slate-400 mb-8">
             <div className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5 text-healthcare-teal" />
+              <TrendingUp className="h-5 w-5 text-blue-400" />
               <span>Market Forecasts</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-healthcare-green" />
+              <Users className="h-5 w-5 text-green-400" />
               <span>Competitive Analysis</span>
             </div>
             <div className="flex items-center space-x-2">
-              <BarChart3 className="h-5 w-5 text-healthcare-blue" />
+              <BarChart3 className="h-5 w-5 text-blue-400" />
               <span>Visual Infographics</span>
             </div>
           </div>
@@ -199,9 +199,9 @@ export default function Home() {
 
         {/* Main Input Section */}
         <div className="max-w-2xl mx-auto mb-12">
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <div className="bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-700">
             <div className="mb-6">
-              <label htmlFor="keyword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="keyword" className="block text-sm font-medium text-slate-300 mb-2">
                 Healthcare Market Keyword
               </label>
               <div className="relative">
@@ -211,20 +211,20 @@ export default function Home() {
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                   placeholder="e.g., Alzheimer's Disease Diagnostics, Robotic Surgery, Digital Therapeutics"
-                  className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-healthcare-blue focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 pl-12 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-white placeholder-slate-400"
                   onKeyPress={(e) => e.key === 'Enter' && !isGenerating && handleGenerateReport()}
                   disabled={isGenerating || !session}
                 />
-                <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+                <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
               </div>
             </div>
             
             {!session ? (
               <div className="text-center py-4">
-                <p className="text-gray-600 mb-4">Please sign in to generate reports</p>
+                <p className="text-slate-300 mb-4">Please sign in to generate reports</p>
                 <button
                   onClick={() => signIn('google')}
-                  className="bg-healthcare-blue text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   Sign In with Google
                 </button>
@@ -233,7 +233,7 @@ export default function Home() {
               <button
                 onClick={handleGenerateReport}
                 disabled={!keyword.trim() || isGenerating}
-                className="w-full bg-healthcare-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2"
+                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2"
               >
                 {isGenerating ? (
                   <>
@@ -254,36 +254,36 @@ export default function Home() {
         {/* Current Report Status */}
         {currentReport && (
           <div className="max-w-2xl mx-auto mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <div className="bg-slate-800 rounded-lg shadow-md p-6 border border-slate-700">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-white">
                   Current Report: {currentReport.keyword}
                 </h3>
                 <div className="flex items-center space-x-2">
                   {currentReport.status === 'processing' && (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin text-healthcare-blue" />
-                      <span className="text-sm text-healthcare-blue">Processing...</span>
+                      <Loader2 className="h-5 w-5 animate-spin text-blue-400" />
+                      <span className="text-sm text-blue-400">Processing...</span>
                     </>
                   )}
                   {currentReport.status === 'completed' && (
                     <>
-                      <CheckCircle className="h-5 w-5 text-green-500" />
-                      <span className="text-sm text-green-600">Completed</span>
+                      <CheckCircle className="h-5 w-5 text-green-400" />
+                      <span className="text-sm text-green-400">Completed</span>
                     </>
                   )}
                   {currentReport.status === 'failed' && (
                     <>
-                      <AlertCircle className="h-5 w-5 text-red-500" />
-                      <span className="text-sm text-red-600">Failed</span>
+                      <AlertCircle className="h-5 w-5 text-red-400" />
+                      <span className="text-sm text-red-400">Failed</span>
                     </>
                   )}
                 </div>
               </div>
               
               {currentReport.status === 'processing' && (
-                <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                  <div className="bg-healthcare-blue h-2 rounded-full pulse-animation" style={{width: '60%'}}></div>
+                <div className="w-full bg-slate-700 rounded-full h-2 mb-4">
+                  <div className="bg-blue-600 h-2 rounded-full pulse-animation" style={{width: '60%'}}></div>
                 </div>
               )}
               
@@ -311,8 +311,8 @@ export default function Home() {
               )}
               
               {currentReport.status === 'failed' && currentReport.error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <p className="text-sm text-red-700">{currentReport.error}</p>
+                <div className="bg-red-900 border border-red-700 rounded-lg p-4">
+                  <p className="text-sm text-red-300">{currentReport.error}</p>
                 </div>
               )}
             </div>
@@ -322,16 +322,16 @@ export default function Home() {
         {/* Recent Reports */}
         {reports.length > 0 && (
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Reports</h3>
+            <h3 className="text-2xl font-bold text-white mb-6">Recent Reports</h3>
             <div className="grid gap-4">
               {reports.slice(0, 5).map((report) => (
-                <div key={report.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                <div key={report.id} className="bg-slate-800 rounded-lg shadow-md p-6 border border-slate-700">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                      <h4 className="text-lg font-semibold text-white mb-1">
                         {report.keyword}
                       </h4>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-400">
                         {new Date(report.createdAt).toLocaleDateString()} at{' '}
                         {new Date(report.createdAt).toLocaleTimeString()}
                       </p>
@@ -341,20 +341,20 @@ export default function Home() {
                       <div className="flex items-center space-x-2">
                         {report.status === 'processing' && (
                           <>
-                            <Loader2 className="h-4 w-4 animate-spin text-healthcare-blue" />
-                            <span className="text-sm text-healthcare-blue">Processing</span>
+                            <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
+                            <span className="text-sm text-blue-400">Processing</span>
                           </>
                         )}
                         {report.status === 'completed' && (
                           <>
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm text-green-600">Completed</span>
+                            <CheckCircle className="h-4 w-4 text-green-400" />
+                            <span className="text-sm text-green-400">Completed</span>
                           </>
                         )}
                         {report.status === 'failed' && (
                           <>
-                            <AlertCircle className="h-4 w-4 text-red-500" />
-                            <span className="text-sm text-red-600">Failed</span>
+                            <AlertCircle className="h-4 w-4 text-red-400" />
+                            <span className="text-sm text-red-400">Failed</span>
                           </>
                         )}
                       </div>
@@ -362,7 +362,7 @@ export default function Home() {
                       {report.status === 'completed' && report.pdfUrl && (
                         <button
                           onClick={() => handleDownload(report.pdfUrl!, report.keyword)}
-                          className="flex items-center space-x-2 bg-healthcare-blue text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm"
+                          className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
                         >
                           <Download className="h-4 w-4" />
                           <span>Download</span>
@@ -378,7 +378,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 mt-20">
+      <footer className="bg-slate-900 text-white py-12 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
@@ -387,12 +387,25 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold">iHealthcareAnalyst</h3>
             </div>
-            <p className="text-gray-400 mb-4">
+            <p className="text-slate-400 mb-4">
               "Be part of a culture of data science, extending the impact of your insights."
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-500 mb-2">
               Powered by AI • Market Research • Healthcare Analytics
             </p>
+            <div className="border-t border-slate-700 pt-4 mt-4">
+              <p className="text-sm text-slate-400">
+                © 2026 iHealthcareAnalyst, Inc. | All Rights Reserved. | 
+                <a 
+                  href="https://www.ihealthcareanalyst.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 ml-1"
+                >
+                  www.ihealthcareanalyst.com
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </footer>
