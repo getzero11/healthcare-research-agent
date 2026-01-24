@@ -18,7 +18,7 @@ DATABASE_URL = postgresql://postgres:Getzero2552&@db.canhtygpjdyfkckqjhoa.supaba
 NEXTAUTH_SECRET = K8mN9pQ2rT5uW8xA1bC4dE7fG0hI3jL6mO9pS2tU5vX8yZ1aC4eF7gH0iK3lM6nP9qR2sT5uW8xA1bC4dE7fG0hI
 GOOGLE_CLIENT_ID = 310363257663-3vatftq5g5jaegslf6m9eaknbvfqelhf.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET = 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
-N8N_WEBHOOK_URL = https://getzero11-n8n-gz.hf.space/webhook/healthcare-report-generator
+N8N_WEBHOOK_URL = https://n8ncloud.mywire.org/webhook/healthcare-report-generator
 
 ## IMPORTANT: After Vercel deployment, you'll get a URL like:
 https://healthcare-research-agent-xyz123.vercel.app

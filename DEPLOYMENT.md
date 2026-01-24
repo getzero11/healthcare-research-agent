@@ -58,7 +58,7 @@ git push -u origin main
    - `NEXTAUTH_URL`: Your Vercel app URL (e.g., `https://your-app.vercel.app`)
    - `GOOGLE_CLIENT_ID`: From Step 2
    - `GOOGLE_CLIENT_SECRET`: From Step 2
-   - `N8N_WEBHOOK_URL`: `https://getzero11-n8n-gz.hf.space/webhook/healthcare-report-generator`
+   - `N8N_WEBHOOK_URL`: `https://n8ncloud.mywire.org/webhook/healthcare-report-generator`
 
 6. Click "Deploy"
 
