@@ -35,7 +35,7 @@ export default function Home() {
     
     setIsGenerating(true)
     try {
-      const response = await axios.post('/api/generate-report', {
+      const response = await axios.post('/api/debug-request', {
         keyword: keyword.trim(),
         userEmail: 'anonymous@user.com' // Default email for anonymous users
       })
