@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     console.log('✅ Report created:', report.id);
 
     // Trigger n8n workflow via webhook
-    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL
+    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL?.trim()
     if (!n8nWebhookUrl) {
       throw new Error('N8N webhook URL not configured')
     }

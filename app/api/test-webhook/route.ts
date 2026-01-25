@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     console.log('=== Testing n8n Webhook Connection ===');
     
-    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL
+    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL?.trim()
     console.log('N8N_WEBHOOK_URL:', n8nWebhookUrl);
     
     if (!n8nWebhookUrl) {
