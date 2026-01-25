@@ -6,7 +6,10 @@ export async function POST(request: NextRequest) {
   try {
     console.log('=== Generate Report API Called ===');
     
-    const { keyword, userEmail } = await request.json()
+    const requestBody = await request.json()
+    console.log('Full request body:', JSON.stringify(requestBody, null, 2));
+    
+    const { keyword, userEmail } = requestBody
     console.log('Keyword received:', keyword);
     console.log('User email:', userEmail || 'anonymous@user.com');
     
@@ -38,13 +41,17 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Triggering n8n webhook...');
+    console.log('Webhook URL:', n8nWebhookUrl);
+    
+    const webhookPayload = {
+      keyword: keyword.trim(),
+      reportId: report.id,
+      userEmail: finalUserEmail,
+    }
+    console.log('Webhook payload:', JSON.stringify(webhookPayload, null, 2));
 
     try {
-      await axios.post(n8nWebhookUrl, {
-        keyword: keyword.trim(),
-        reportId: report.id,
-        userEmail: finalUserEmail,
-      }, {
+      const webhookResponse = await axios.post(n8nWebhookUrl, webhookPayload, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -52,6 +59,8 @@ export async function POST(request: NextRequest) {
       })
 
       console.log('✅ n8n webhook triggered successfully');
+      console.log('Webhook response status:', webhookResponse.status);
+      console.log('Webhook response data:', webhookResponse.data);
 
       // Update status to processing
       await prisma.report.update({
@@ -61,8 +70,14 @@ export async function POST(request: NextRequest) {
 
       console.log('✅ Report status updated to processing');
 
-    } catch (webhookError) {
-      console.error('❌ Failed to trigger n8n webhook:', webhookError)
+    } catch (webhookError: any) {
+      console.error('❌ Failed to trigger n8n webhook:', webhookError.message)
+      console.error('Webhook error details:', {
+        code: webhookError.code,
+        status: webhookError.response?.status,
+        statusText: webhookError.response?.statusText,
+        data: webhookError.response?.data
+      })
       
       // Update report status to failed
       await prisma.report.update({
