@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../auth/[...nextauth]/route'
 import { prisma } from '@/lib/prisma'
 import axios from 'axios'
 
@@ -8,23 +6,17 @@ export async function POST(request: NextRequest) {
   try {
     console.log('=== Generate Report API Called ===');
     
-    const session = await getServerSession(authOptions)
-    console.log('Session retrieved:', JSON.stringify(session, null, 2));
-    
-    if (!session?.user?.email) {
-      console.log('❌ No session or email found');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    console.log('✅ User authenticated:', session.user.email);
-
-    const { keyword } = await request.json()
+    const { keyword, userEmail } = await request.json()
     console.log('Keyword received:', keyword);
+    console.log('User email:', userEmail || 'anonymous@user.com');
     
     if (!keyword || typeof keyword !== 'string') {
       console.log('❌ Invalid keyword');
       return NextResponse.json({ error: 'Invalid keyword' }, { status: 400 })
     }
+
+    const finalUserEmail = userEmail || 'anonymous@user.com';
+    console.log('✅ Processing request for:', finalUserEmail);
 
     console.log('Creating report in database...');
     
@@ -33,7 +25,7 @@ export async function POST(request: NextRequest) {
       data: {
         keyword: keyword.trim(),
         status: 'pending',
-        userEmail: session.user.email,
+        userEmail: finalUserEmail,
       },
     })
 
@@ -51,7 +43,7 @@ export async function POST(request: NextRequest) {
       await axios.post(n8nWebhookUrl, {
         keyword: keyword.trim(),
         reportId: report.id,
-        userEmail: session.user.email,
+        userEmail: finalUserEmail,
       }, {
         headers: {
           'Content-Type': 'application/json',

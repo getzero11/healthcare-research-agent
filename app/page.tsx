@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react'
 import { 
   Search, 
   FileText, 
@@ -11,9 +10,7 @@ import {
   AlertCircle,
   BarChart3,
   TrendingUp,
-  Users,
-  LogIn,
-  LogOut
+  Users
 } from 'lucide-react'
 import axios from 'axios'
 
@@ -28,7 +25,6 @@ interface ReportStatus {
 }
 
 export default function Home() {
-  const { data: session, status } = useSession()
   const [keyword, setKeyword] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [reports, setReports] = useState<ReportStatus[]>([])
@@ -40,7 +36,8 @@ export default function Home() {
     setIsGenerating(true)
     try {
       const response = await axios.post('/api/generate-report', {
-        keyword: keyword.trim()
+        keyword: keyword.trim(),
+        userEmail: 'anonymous@user.com' // Default email for anonymous users
       })
       
       const newReport: ReportStatus = {
@@ -118,7 +115,7 @@ export default function Home() {
     }
   }
 
-  if (status === 'loading') {
+  if (false) { // Remove loading state check
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
@@ -143,28 +140,9 @@ export default function Home() {
             </div>
             
             <div className="flex items-center space-x-4">
-              {session ? (
-                <div className="flex items-center space-x-3">
-                  <span className="text-sm text-slate-300">
-                    Welcome, {session.user?.name || session.user?.email}
-                  </span>
-                  <button
-                    onClick={() => signOut()}
-                    className="flex items-center space-x-2 px-3 py-2 text-sm text-slate-300 hover:text-white transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Sign Out</span>
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => signIn('google')}
-                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  <LogIn className="h-4 w-4" />
-                  <span>Sign In</span>
-                </button>
-              )}
+              <div className="text-sm text-slate-300">
+                Healthcare Market Research Generator
+              </div>
             </div>
           </div>
         </div>
@@ -213,41 +191,29 @@ export default function Home() {
                   placeholder="e.g., Alzheimer's Disease Diagnostics, Robotic Surgery, Digital Therapeutics"
                   className="w-full px-4 py-3 pl-12 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-white placeholder-slate-400"
                   onKeyPress={(e) => e.key === 'Enter' && !isGenerating && handleGenerateReport()}
-                  disabled={isGenerating || !session}
+                  disabled={isGenerating}
                 />
                 <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
               </div>
             </div>
             
-            {!session ? (
-              <div className="text-center py-4">
-                <p className="text-slate-300 mb-4">Please sign in to generate reports</p>
-                <button
-                  onClick={() => signIn('google')}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                >
-                  Sign In with Google
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={handleGenerateReport}
-                disabled={!keyword.trim() || isGenerating}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2"
-              >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    <span>Generating Report...</span>
-                  </>
-                ) : (
-                  <>
-                    <FileText className="h-5 w-5" />
-                    <span>Generate Market Research Report</span>
-                  </>
-                )}
-              </button>
-            )}
+            <button
+              onClick={handleGenerateReport}
+              disabled={!keyword.trim() || isGenerating}
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center space-x-2"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <span>Generating Report...</span>
+                </>
+              ) : (
+                <>
+                  <FileText className="h-5 w-5" />
+                  <span>Generate Market Research Report</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
