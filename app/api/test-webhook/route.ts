@@ -9,10 +9,19 @@ export async function GET(request: NextRequest) {
     console.log('N8N_WEBHOOK_URL:', n8nWebhookUrl);
     
     if (!n8nWebhookUrl) {
-      return NextResponse.json({ 
-        error: 'N8N_WEBHOOK_URL not configured',
-        env: process.env 
-      }, { status: 500 })
+      return new NextResponse(`
+        <html>
+          <body>
+            <h1>❌ Configuration Error</h1>
+            <p><strong>Error:</strong> N8N_WEBHOOK_URL not configured</p>
+            <p><strong>Environment Variables:</strong></p>
+            <pre>${JSON.stringify(process.env, null, 2)}</pre>
+          </body>
+        </html>
+      `, {
+        headers: { 'Content-Type': 'text/html' },
+        status: 500
+      })
     }
 
     console.log('Testing webhook connection...');
@@ -31,36 +40,51 @@ export async function GET(request: NextRequest) {
 
       console.log('✅ Webhook test successful:', response.status);
 
-      return NextResponse.json({
-        success: true,
-        webhookUrl: n8nWebhookUrl,
-        response: {
-          status: response.status,
-          statusText: response.statusText,
-          data: response.data
-        }
+      return new NextResponse(`
+        <html>
+          <body>
+            <h1>✅ Webhook Test Successful</h1>
+            <p><strong>Webhook URL:</strong> ${n8nWebhookUrl}</p>
+            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+            <p><strong>Response:</strong> ${JSON.stringify(response.data)}</p>
+          </body>
+        </html>
+      `, {
+        headers: { 'Content-Type': 'text/html' }
       })
 
     } catch (webhookError: any) {
       console.error('❌ Webhook test failed:', webhookError.message);
       
-      return NextResponse.json({ 
-        error: 'Webhook connection failed',
-        webhookUrl: n8nWebhookUrl,
-        details: {
-          message: webhookError.message,
-          code: webhookError.code,
-          status: webhookError.response?.status,
-          statusText: webhookError.response?.statusText
-        }
-      }, { status: 500 })
+      return new NextResponse(`
+        <html>
+          <body>
+            <h1>❌ Webhook Test Failed</h1>
+            <p><strong>Webhook URL:</strong> ${n8nWebhookUrl}</p>
+            <p><strong>Error:</strong> ${webhookError.message}</p>
+            <p><strong>Code:</strong> ${webhookError.code}</p>
+            <p><strong>Status:</strong> ${webhookError.response?.status}</p>
+            <p><strong>Status Text:</strong> ${webhookError.response?.statusText}</p>
+          </body>
+        </html>
+      `, {
+        headers: { 'Content-Type': 'text/html' },
+        status: 500
+      })
     }
 
   } catch (error: any) {
     console.error('❌ Test error:', error);
-    return NextResponse.json({ 
-      error: 'Test failed',
-      message: error.message
-    }, { status: 500 })
+    return new NextResponse(`
+      <html>
+        <body>
+          <h1>❌ Test Failed</h1>
+          <p><strong>Error:</strong> ${error.message}</p>
+        </body>
+      </html>
+    `, {
+      headers: { 'Content-Type': 'text/html' },
+      status: 500
+    })
   }
 }
