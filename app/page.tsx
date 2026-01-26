@@ -48,8 +48,8 @@ export default function Home() {
       
       setMessage('Report generation started! Processing in background...')
       
-      // Start polling for completion
-      pollForCompletion(keyword.trim())
+      // Start polling for completion (add "Market" to match n8n processing)
+      pollForCompletion(keyword.trim() + " Market")
       
     } catch (error) {
       console.error('Error generating report:', error)
