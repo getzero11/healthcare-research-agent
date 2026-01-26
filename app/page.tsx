@@ -47,7 +47,9 @@ export default function Home() {
       }
       
       setMessage('Report generation started! Processing in background...')
-      // The n8n workflow will handle the rest and call back when complete
+      
+      // Start polling for completion
+      pollForCompletion(keyword.trim())
       
     } catch (error) {
       console.error('Error generating report:', error)
@@ -56,6 +58,56 @@ export default function Home() {
     } finally {
       setIsGenerating(false)
     }
+  }
+
+  const pollForCompletion = async (reportKeyword: string) => {
+    const maxAttempts = 60 // Poll for up to 5 minutes (60 * 5 seconds)
+    let attempts = 0
+    
+    const poll = async () => {
+      try {
+        attempts++
+        
+        const response = await fetch(`/api/webhook/n8n-callback?keyword=${encodeURIComponent(reportKeyword)}`)
+        const data = await response.json()
+        
+        if (response.ok && data.status === 'completed') {
+          setStatus('completed')
+          setMessage('Report generated successfully!')
+          setReportData({
+            pdfUrl: data.pdfUrl,
+            driveUrl: data.driveUrl
+          })
+          return
+        }
+        
+        if (data.status === 'error') {
+          setStatus('error')
+          setMessage(data.error || 'Report generation failed')
+          return
+        }
+        
+        // Continue polling if still processing and haven't exceeded max attempts
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 5000) // Poll every 5 seconds
+        } else {
+          setStatus('error')
+          setMessage('Report generation timed out. Please try again.')
+        }
+        
+      } catch (error) {
+        console.error('Error polling for completion:', error)
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 5000) // Continue polling on error
+        } else {
+          setStatus('error')
+          setMessage('Failed to check report status')
+        }
+      }
+    }
+    
+    // Start polling after a short delay
+    setTimeout(poll, 5000)
   }
 
   const handleDownload = async (pdfUrl: string, keyword: string) => {
