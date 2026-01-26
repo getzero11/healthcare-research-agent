@@ -126,5 +126,5 @@ This project is licensed under the MIT License.
 ## Support
 
 For support and questions:
-- Email: ihealthcareanalyst@gmail.com
+- Email: getzero11@gmail.com
 - Website: [iHealthcareAnalyst.com](https://www.ihealthcareanalyst.com)
