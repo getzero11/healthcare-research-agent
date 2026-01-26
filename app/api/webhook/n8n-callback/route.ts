@@ -1,54 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    console.log('=== n8n Callback Received ===');
     
-    const { 
-      reportId, 
-      status, 
-      pdfUrl, 
-      driveUrl, 
-      error,
-      keyword 
-    } = body
-
-    if (!reportId) {
-      return NextResponse.json({ error: 'Missing reportId' }, { status: 400 })
-    }
-
-    // Update report in database
-    const updateData: any = {
-      status: status || 'completed',
-    }
-
-    if (pdfUrl) updateData.pdfUrl = pdfUrl
-    if (driveUrl) updateData.driveUrl = driveUrl
-    if (error) updateData.error = error
-    if (status === 'completed') updateData.completedAt = new Date()
-
-    const report = await prisma.report.update({
-      where: { id: reportId },
-      data: updateData,
-    })
-
-    console.log(`Report ${reportId} updated:`, {
-      status: report.status,
-      keyword: report.keyword,
-      pdfUrl: report.pdfUrl ? 'Present' : 'Missing',
-      driveUrl: report.driveUrl ? 'Present' : 'Missing',
-    })
-
-    return NextResponse.json({ 
+    const requestBody = await request.json()
+    console.log('Callback data:', JSON.stringify(requestBody, null, 2));
+    
+    const { status, keyword, pdfUrl, driveUrl, error } = requestBody
+    
+    // Log the completion
+    console.log(`Report ${status} for keyword: ${keyword}`);
+    if (pdfUrl) console.log('PDF URL:', pdfUrl);
+    if (driveUrl) console.log('Drive URL:', driveUrl);
+    if (error) console.log('Error:', error);
+    
+    // In a real implementation, you might:
+    // 1. Store this in a database
+    // 2. Send notifications to users
+    // 3. Update frontend via WebSocket/SSE
+    // 4. Send emails
+    
+    // For now, just acknowledge receipt
+    return NextResponse.json({
       success: true,
-      message: 'Report status updated'
+      message: 'Callback received successfully',
+      receivedAt: new Date().toISOString()
     })
 
   } catch (error) {
-    console.error('Error in n8n callback webhook:', error)
+    console.error('❌ Error in n8n callback:', error)
     return NextResponse.json({ 
-      error: 'Internal server error' 
+      error: 'Failed to process callback' 
     }, { status: 500 })
   }
 }
