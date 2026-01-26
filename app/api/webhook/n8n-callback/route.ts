@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
         completedAt: new Date().toISOString()
       })
       console.log(`✅ Stored report status for: ${keyword}`);
+      console.log(`📊 Total stored reports: ${reportStatus.size}`);
+      console.log(`🔑 All stored keys:`, Array.from(reportStatus.keys()));
     }
     
     return NextResponse.json({
@@ -52,6 +54,10 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const keyword = searchParams.get('keyword')
     
+    console.log(`🔍 Checking status for keyword: "${keyword}"`);
+    console.log(`📊 Total stored reports: ${reportStatus.size}`);
+    console.log(`🔑 All stored keys:`, Array.from(reportStatus.keys()));
+    
     if (!keyword) {
       return NextResponse.json({ error: 'Keyword parameter required' }, { status: 400 })
     }
@@ -61,10 +67,13 @@ export async function GET(request: NextRequest) {
     if (!status) {
       return NextResponse.json({ 
         status: 'processing',
-        message: 'Report still processing or not found'
+        message: 'Report still processing or not found',
+        searchedFor: keyword,
+        availableKeys: Array.from(reportStatus.keys())
       })
     }
     
+    console.log(`✅ Found status for: "${keyword}"`);
     return NextResponse.json(status)
     
   } catch (error) {
