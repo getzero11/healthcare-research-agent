@@ -1,5 +1,10 @@
 # Healthcare Market Research Agent
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Node.js](https://img.shields.io/badge/node-%3E%3D20-brightgreen)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
+
+
 AI-powered healthcare market research report generator that creates comprehensive market analysis reports with intelligent insights, market sizing, competitive analysis, and forecasts.
 
 ## Features
